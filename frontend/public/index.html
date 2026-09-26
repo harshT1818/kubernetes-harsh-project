@@ -1,10 +1,461 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Kubernetes Production App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cluster Café — Kubernetes, brewed simply.</title>
+  <meta
+    name="description"
+    content="An interactive café that teaches Kubernetes through real infrastructure."
+  />
+
+  <link rel="stylesheet" href="/styles.css?v=cluster-cafe-20260926-4" />
 </head>
+
 <body>
-  <h1>Kubernetes Production App</h1>
-  <p>Frontend is running successfully.</p>
+  <div class="noise"></div>
+
+  <header class="nav-shell">
+    <nav class="nav">
+      <a class="brand" href="#">
+        <span class="brand-mark">
+          <span class="cup">C</span>
+        </span>
+
+        <span>
+          <strong>Cluster Café</strong>
+          <small>Always open. Always scaling.</small>
+        </span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#learn">The Café</a>
+        <a href="#journey">Order Journey</a>
+        <a href="#rush">Rush Hour</a>
+        <a href="#memory">Memory Jar</a>
+      </div>
+
+      <div class="status-pill" id="systemStatus">
+        <span class="status-dot"></span>
+        Checking café...
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero section">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span>☕</span>
+          A café secretly powered by Kubernetes
+        </div>
+
+        <h1>
+          Kubernetes,
+          <span>brewed simply.</span>
+        </h1>
+
+        <p class="hero-description">
+          Imagine a café that never closes, opens more counters when a rush
+          arrives, replaces missing staff automatically, and never forgets
+          your order.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="sendOrderHero">
+            <span>Send an order</span>
+            <span>→</span>
+          </button>
+
+          <a class="btn btn-secondary" href="#learn">
+            Explore the café
+          </a>
+        </div>
+
+        <div class="hero-proof">
+          <div>
+            <strong>2–5</strong>
+            <span>Backend workers</span>
+          </div>
+
+          <div>
+            <strong>60%</strong>
+            <span>Rush-hour trigger</span>
+          </div>
+
+          <div>
+            <strong>24/7</strong>
+            <span>Self-healing café</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="cafe-board">
+          <div class="board-header">
+            <span>Inside the café</span>
+            <span class="live-indicator">
+              <i></i> LIVE
+            </span>
+          </div>
+
+          <div class="architecture-mini">
+            <div class="architecture-row centered">
+              <div class="mini-card entrance">
+                <span class="mini-icon">🚪</span>
+                <div>
+                  <small>Front door</small>
+                  <strong>Ingress</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="connector-down"></div>
+
+            <div class="architecture-row split">
+              <div class="mini-card">
+                <span class="mini-icon">🧑‍🍳</span>
+                <div>
+                  <small>Dining floor</small>
+                  <strong>Frontend</strong>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <span class="mini-icon">👨‍🍳</span>
+                <div>
+                  <small>Kitchen</small>
+                  <strong>Backend</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="connector-down right"></div>
+
+            <div class="architecture-row right-align">
+              <div class="mini-card storage">
+                <span class="mini-icon">🫘</span>
+                <div>
+                  <small>Pantry</small>
+                  <strong>PostgreSQL</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="board-note">
+            Every box above is running inside your Kubernetes cluster.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALOGIES -->
+    <section class="section learn" id="learn">
+      <div class="section-heading">
+        <span class="section-kicker">How the café works</span>
+        <h2>If Kubernetes ran a café...</h2>
+        <p>
+          Every intimidating Kubernetes term becomes something you've already
+          seen in daily life.
+        </p>
+      </div>
+
+      <div class="concept-grid">
+        <article class="concept-card featured">
+          <div class="concept-number">01</div>
+          <div class="concept-icon">🚪</div>
+          <span class="technical-name">INGRESS</span>
+          <h3>The front door</h3>
+          <p>
+            Every customer enters through one door. The host decides whether
+            they need the dining area or the kitchen API.
+          </p>
+          <code>/ → frontend &nbsp;&nbsp; /api → backend</code>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">02</div>
+          <div class="concept-icon">🛎️</div>
+          <span class="technical-name">SERVICE</span>
+          <h3>The waiter</h3>
+          <p>
+            Customers don't need to know which cook is free. The waiter always
+            knows where to send the order.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">03</div>
+          <div class="concept-icon">👨‍🍳</div>
+          <span class="technical-name">POD</span>
+          <h3>A café worker</h3>
+          <p>
+            A Pod is one running worker. If one disappears, Kubernetes can
+            bring in another.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">04</div>
+          <div class="concept-icon">🧑‍💼</div>
+          <span class="technical-name">DEPLOYMENT</span>
+          <h3>The shift manager</h3>
+          <p>
+            The manager decides how many workers should exist and replaces
+            anyone who stops working.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">05</div>
+          <div class="concept-icon">📈</div>
+          <span class="technical-name">HPA</span>
+          <h3>Rush-hour staffing</h3>
+          <p>
+            When the café gets crowded, more workers are automatically called
+            in. When things calm down, they go home.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">06</div>
+          <div class="concept-icon">🗄️</div>
+          <span class="technical-name">PVC + PV</span>
+          <h3>The pantry</h3>
+          <p>
+            Workers can change, but ingredients stay in storage. Persistent
+            data survives even when Pods are replaced.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">07</div>
+          <div class="concept-icon">📋</div>
+          <span class="technical-name">CONFIGMAP</span>
+          <h3>The notice board</h3>
+          <p>
+            Opening hours and instructions belong on the notice board, not
+            permanently written into every worker's brain.
+          </p>
+        </article>
+
+        <article class="concept-card">
+          <div class="concept-number">08</div>
+          <div class="concept-icon">🔐</div>
+          <span class="technical-name">SECRET</span>
+          <h3>The locked drawer</h3>
+          <p>
+            Passwords and credentials stay somewhere more appropriate than
+            ordinary configuration.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- REQUEST JOURNEY -->
+    <section class="section journey" id="journey">
+      <div class="section-heading">
+        <span class="section-kicker">FOLLOW AN ORDER</span>
+        <h2>What happens when you order coffee?</h2>
+        <p>
+          Send a real request through the Kubernetes application and watch its
+          journey.
+        </p>
+      </div>
+
+      <div class="journey-panel">
+        <div class="journey-track">
+          <div class="journey-node" data-step="0">
+            <span>🙋</span>
+            <strong>You</strong>
+            <small>Customer</small>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-node" data-step="1">
+            <span>🚪</span>
+            <strong>Ingress</strong>
+            <small>Front door</small>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-node" data-step="2">
+            <span>🛎️</span>
+            <strong>Service</strong>
+            <small>Waiter</small>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-node" data-step="3">
+            <span>👨‍🍳</span>
+            <strong>Backend Pod</strong>
+            <small>Cook</small>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-node" data-step="4">
+            <span>🫘</span>
+            <strong>PostgreSQL</strong>
+            <small>Pantry</small>
+          </div>
+        </div>
+
+        <div class="journey-action">
+          <button class="btn btn-primary" id="traceRequest">
+            Send one coffee order
+          </button>
+
+          <div class="response-box" id="traceResponse">
+            <span class="response-placeholder">
+              Your order hasn't been sent yet.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RUSH HOUR -->
+    <section class="section rush" id="rush">
+      <div class="rush-card">
+        <div class="rush-copy">
+          <span class="section-kicker light">Rush hour at the café</span>
+
+          <h2>It's 8:45 AM.<br />Everyone wants coffee.</h2>
+
+          <p>
+            Create a burst of real CPU-heavy requests. Kubernetes notices the
+            kitchen getting overwhelmed and HPA can add more backend Pods.
+          </p>
+
+          <div class="warning">
+            <span>⚡</span>
+            This creates controlled load against your real backend.
+          </div>
+
+          <button class="btn btn-light" id="startRush">
+            Start rush hour
+          </button>
+        </div>
+
+        <div class="rush-terminal">
+          <div class="terminal-top">
+            <span></span><span></span><span></span>
+            <small>cluster-cafe / rush-hour</small>
+          </div>
+
+          <div class="terminal-content">
+            <p><span class="muted">$</span> kitchen.status</p>
+
+            <div class="metric">
+              <span>HPA target</span>
+              <strong>60% CPU</strong>
+            </div>
+
+            <div class="metric">
+              <span>Workers allowed</span>
+              <strong>2 → 5 Pods</strong>
+            </div>
+
+            <div class="load-bar-shell">
+              <div class="load-bar" id="loadBar"></div>
+            </div>
+
+            <p id="rushStatus" class="terminal-status">
+              Café is calm. Two workers are enough.
+            </p>
+
+            <code>kubectl get hpa -n production-app -w</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATABASE -->
+    <section class="section memory" id="memory">
+      <div class="section-heading">
+        <span class="section-kicker">PERSISTENT STORAGE</span>
+        <h2>The café remembers.</h2>
+        <p>
+          Leave something in the Memory Jar. It is stored in PostgreSQL rather
+          than inside a temporary backend Pod.
+        </p>
+      </div>
+
+      <div class="memory-layout">
+        <form class="memory-form" id="noteForm">
+          <label for="noteInput">Leave a note for the café</label>
+
+          <textarea
+            id="noteInput"
+            maxlength="160"
+            placeholder="Kubernetes finally makes sense..."
+            required
+          ></textarea>
+
+          <div class="form-footer">
+            <span><span id="charCount">0</span>/160</span>
+            <button class="btn btn-primary" type="submit">
+              Save to PostgreSQL
+            </button>
+          </div>
+        </form>
+
+        <div class="memory-list-shell">
+          <div class="memory-header">
+            <div>
+              <small>PVC → PV</small>
+              <strong>Memory Jar</strong>
+            </div>
+
+            <button class="icon-button" id="refreshNotes" aria-label="Refresh">
+              ↻
+            </button>
+          </div>
+
+          <div class="memory-list" id="notesList">
+            <div class="empty-state">Loading the memory jar...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section class="section closing">
+      <div>
+        <span class="section-kicker">THE BIG IDEA</span>
+        <h2>
+          The café changes.<br />
+          The service keeps running.
+        </h2>
+      </div>
+
+      <p>
+        Pods disappear. Traffic changes. Deployments roll out. Kubernetes
+        continuously works to make reality match the desired state.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#">
+      <span class="brand-mark"><span class="cup">C</span></span>
+      <span><strong>Cluster Café</strong></span>
+    </a>
+
+    <p>Built to make Kubernetes feel obvious.</p>
+
+    <span>Powered by Kubernetes + Helm</span>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/app.js"></script>
 </body>
 </html>
