@@ -1,4 +1,30 @@
+# Node
 node_modules/
+npm-debug.log*
+
+# Environment / secrets
 .env
 .env.*
+!.env.example
+
+# Kubernetes real secrets
 k8s/database/secret.yaml
+
+# Helm secret overrides
+production-app/values-secret.yaml
+production-app/values-secrets.yaml
+*-secrets.yaml
+
+# Build output
+.next/
+dist/
+build/
+
+# Logs
+*.log
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
