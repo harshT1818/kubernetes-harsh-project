@@ -3,7 +3,7 @@ backend:
 
   image:
     repository: production-backend
-    tag: "2.0"
+    tag: "2.4"
     pullPolicy: IfNotPresent
 
   service:
@@ -45,7 +45,7 @@ frontend:
 
   image:
     repository: production-frontend
-    tag: "2.2"
+    tag: "2.10"
     pullPolicy: IfNotPresent
 
   service:

@@ -191,7 +191,8 @@ async function loadNotes() {
   const list = $("#notesList");
 
   try {
-    const { notes } = await api("/api/notes");
+    const { items } = await api("/api/notes");
+    const notes = items || [];
 
     if (!notes.length) {
       list.innerHTML = `
@@ -207,15 +208,25 @@ async function loadNotes() {
         (note) => `
           <div class="note">
             <p>${escapeHtml(note.message)}</p>
+
             <small>
+              ${note.author_name
+                ? `${escapeHtml(note.author_name)} · `
+                : ""
+              }
               ${new Date(note.created_at).toLocaleString()}
+              · ${escapeHtml(note.category || "general")}
               · PostgreSQL
+              ${note.is_pinned ? " · 📌" : ""}
             </small>
           </div>
         `
       )
       .join("");
-  } catch {
+
+  } catch (error) {
+    console.error("Memory Jar load failed:", error);
+
     list.innerHTML = `
       <div class="empty-state">
         Couldn't open the Memory Jar.

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cluster Café Admin</title>
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div>
+      <div class="brand">Cluster Café</div>
+      <div class="subtitle">Admin Console</div>
+    </div>
+
+    <a href="/" class="back-link">← Back to café</a>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Memory Jar Operations</span>
+        <h1>Manage the café's memories.</h1>
+
+        <p>
+          Search, filter, pin, hide and remove notes stored in PostgreSQL.
+        </p>
+      </div>
+
+      <button class="refresh-btn" id="refreshButton">
+        Refresh data
+      </button>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <span>Total notes</span>
+        <strong id="totalCount">—</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Active</span>
+        <strong id="activeCount">—</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Hidden</span>
+        <strong id="hiddenCount">—</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Pinned</span>
+        <strong id="pinnedCount">—</strong>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <span class="eyebrow">PostgreSQL</span>
+          <h2>Memory Jar</h2>
+        </div>
+
+        <div id="resultCount" class="result-count"></div>
+      </div>
+
+      <div class="filters">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search notes..."
+        />
+
+        <select id="statusFilter">
+          <option value="all">All statuses</option>
+          <option value="active">Active</option>
+          <option value="hidden">Hidden</option>
+          <option value="deleted">Deleted</option>
+        </select>
+
+        <select id="categoryFilter">
+          <option value="all">All categories</option>
+          <option value="general">General</option>
+          <option value="persistence">Persistence</option>
+          <option value="kubernetes">Kubernetes</option>
+          <option value="feedback">Feedback</option>
+        </select>
+      </div>
+
+      <div id="loadingState" class="state-box">
+        Loading café memories...
+      </div>
+
+      <div id="emptyState" class="state-box hidden">
+        No notes match these filters.
+      </div>
+
+      <div id="notesList" class="notes-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <span class="eyebrow">Operations</span>
+          <h2>Café Activity</h2>
+        </div>
+
+        <button class="action-btn" id="refreshEventsButton">
+          Refresh
+        </button>
+      </div>
+
+      <div id="eventsLoading" class="state-box">
+        Loading activity...
+      </div>
+
+      <div id="eventsEmpty" class="state-box hidden">
+        No activity recorded yet.
+      </div>
+
+      <div id="eventsList" class="activity-list"></div>
+    </section>
+
+    <section class="panel simulations-panel">
+      <div class="panel-header">
+        <div>
+          <span class="eyebrow">Coming next</span>
+          <h2>Café simulations</h2>
+        </div>
+      </div>
+
+      <div class="simulation-grid">
+        <article class="simulation-card rush-hour-card">
+        <div class="simulation-icon">☕</div>
+
+        <h3>Rush Hour</h3>
+
+        <p>
+            Generate real CPU load on the backend and watch the café add more cooks.
+        </p>
+
+        <div class="rush-visual">
+            <div class="customer-row" id="customerRow">
+            🙂 🙂 🙂 🙂
+            </div>
+
+            <div class="queue-line">
+            <span>Customer queue</span>
+            <div class="queue-track">
+                <div class="queue-fill" id="queueFill"></div>
+            </div>
+            </div>
+
+            <div class="kitchen">
+            <div class="kitchen-label">Kitchen workers</div>
+
+            <div class="cook-row" id="cookRow">
+                <span class="cook">👨‍🍳</span>
+                <span class="cook">👨‍🍳</span>
+            </div>
+            </div>
+
+            <div class="rush-stats">
+            <div>
+                <span>Visual load</span>
+                <strong id="visualLoad">0%</strong>
+            </div>
+
+            <div>
+                <span>Cooks</span>
+                <strong id="cookCount">2</strong>
+            </div>
+            </div>
+        </div>
+
+        <button class="simulation-button" id="startRushHour">
+            Start Rush Hour
+        </button>
+
+        <div class="simulation-message" id="rushMessage">
+            Café is calm.
+        </div>
+        </article>
+
+        <article class="simulation-card">
+        <div class="simulation-icon">👨‍🍳 → 💨</div>
+
+        <h3>Cook disappears</h3>
+
+        <p>
+            Remove one backend Pod and watch Kubernetes create a replacement.
+        </p>
+
+        <div class="self-heal-visual">
+            <div class="heal-kitchen" id="healKitchen">
+            <span class="heal-cook">👨‍🍳</span>
+            <span class="heal-cook">👨‍🍳</span>
+            </div>
+
+            <div class="heal-status" id="healStatus">
+            Kitchen is healthy.
+            </div>
+        </div>
+
+        <button class="simulation-button" id="simulatePodFailure">
+            Simulate Cook Failure
+        </button>
+
+        <div class="command-box">
+            <span>Run in PowerShell:</span>
+
+            <code>
+            kubectl delete pod &lt;backend-pod-name&gt; -n production-app
+            </code>
+        </div>
+        </article>
+
+        <article class="simulation-card">
+        <div class="simulation-icon">v1 → v2</div>
+
+        <h3>New menu release</h3>
+
+        <p>
+            Replace old backend Pods gradually without closing the café.
+        </p>
+
+        <div class="rolling-visual">
+            <div class="version-row">
+            <div>
+                <span class="version-label">Current shift</span>
+
+                <div class="version-workers" id="versionWorkers">
+                <span class="version-cook old">👨‍🍳 <small>v1</small></span>
+                <span class="version-cook old">👨‍🍳 <small>v1</small></span>
+                </div>
+            </div>
+            </div>
+
+            <div class="rollout-progress">
+            <div class="rollout-track">
+                <div class="rollout-fill" id="rolloutFill"></div>
+            </div>
+
+            <span id="rolloutPercent">0%</span>
+            </div>
+
+            <div class="heal-status" id="rollingStatus">
+            Café is serving version v1.
+            </div>
+        </div>
+
+        <button class="simulation-button" id="simulateRollingUpdate">
+          Release Menu v2
+        </button>
+
+        <div class="command-box">
+            <span>Real Kubernetes demo:</span>
+
+            <code>
+            kubectl set image deployment/backend backend=production-backend:2.2 -n production-app
+            </code>
+        </div>
+        </article>
+
+      <article class="simulation-card">
+        <div class="simulation-icon">🧾 → ❌ → 👨‍🍳</div>
+
+        <h3>Break the Waiter Route</h3>
+
+        <p>
+          The cooks are healthy, but the waiter cannot find them.
+        </p>
+
+        <div class="routing-visual">
+          <div class="route-row">
+            <span class="route-node">Customer</span>
+            <span class="route-arrow">→</span>
+            <span class="route-node">Service</span>
+            <span class="route-arrow">→</span>
+            <span class="route-node">Pods</span>
+          </div>
+
+          <div class="route-status" id="routeStatus">
+            Route is healthy.
+          </div>
+
+          <div class="endpoint-box">
+            <span>Service endpoints</span>
+            <strong id="endpointCount">2</strong>
+          </div>
+        </div>
+
+        <button class="simulation-button" id="breakRouteButton">
+          Break Route
+        </button>
+
+        <div class="simulation-message" id="routeMessage">
+          Orders are reaching the kitchen.
+        </div>
+      </article>
+
+      <article class="simulation-card">
+        <div class="simulation-icon">👨‍🍳 ❤️‍🩹</div>
+
+        <h3>Is the cook ready?</h3>
+
+        <p>
+          Learn the difference between a worker who is alive and one who is ready to serve customers.
+        </p>
+
+        <div class="probe-visual">
+          <div class="probe-cook-wrap">
+            <div class="probe-cook" id="probeCook">👨‍🍳</div>
+
+            <div class="probe-badges">
+              <span class="probe-badge healthy" id="livenessBadge">
+                Liveness: OK
+              </span>
+
+              <span class="probe-badge healthy" id="readinessBadge">
+                Readiness: OK
+              </span>
+            </div>
+          </div>
+
+          <div class="probe-route">
+            <span>Customers</span>
+            <span>→</span>
+            <span id="trafficStatus">Cook receives orders</span>
+          </div>
+
+          <div class="simulation-message" id="probeMessage">
+            The cook is healthy and ready.
+          </div>
+        </div>
+
+        <div class="probe-actions">
+          <button class="simulation-button" id="failReadinessButton">
+            Fail Readiness
+          </button>
+
+          <button class="simulation-button secondary-sim-button" id="failLivenessButton">
+            Fail Liveness
+          </button>
+        </div>
+      </article>
+
+      </div> 
+
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>
