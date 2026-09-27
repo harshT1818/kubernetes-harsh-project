@@ -2,6 +2,14 @@
 
 A three-tier application deployed on Kubernetes using **Helm**, with frontend, backend, PostgreSQL, Ingress routing, persistent storage, health checks, resource management, autoscaling, and database-specific scheduling.
 
+## Architecture Diagram
+
+![Cluster Café Architecture](assets/diagrams/cluster-cafe-architecture.png)
+
+## User Journey Diagram
+
+![Cluster Café User Journey](assets/diagrams/cluster-cafe-user-journey.png)
+
 ## Architecture
 
 ```text
