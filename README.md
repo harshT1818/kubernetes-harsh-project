@@ -36,6 +36,32 @@ The application itself runs on Kubernetes using Helm, so the project combines:
 
 ---
 
+## Screenshots
+
+### Homepage
+
+<p align="center">
+  <img src="assets/homepage.png" alt="Cluster Café Homepage" width="1000" />
+</p>
+
+### Rush Hour Simulation
+
+<p align="center">
+  <img src="assets/homepage-start-rush-hour.png" alt="Cluster Café Rush Hour Simulation" width="1000" />
+</p>
+
+### Kubernetes Simulations
+
+<p align="center">
+  <img src="assets/simulations.png" alt="Cluster Café Kubernetes Simulations" width="1000" />
+</p>
+
+### Product Analytics
+
+<p align="center">
+  <img src="assets/analytics.png" alt="Cluster Café Analytics Dashboard" width="1000" />
+</p>
+
 # Product Idea
 
 Kubernetes concepts are often taught independently:
